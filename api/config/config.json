@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "testejunior",
+    "password": "testejunior",
+    "database": "testejuniordb",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "test": {
+    "username": "testejunior",
+    "password": "testejunior",
+    "database": "testejuniordb",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "testejunior",
+    "password": "testejunior",
+    "database": "testejuniordb",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  }
+}
