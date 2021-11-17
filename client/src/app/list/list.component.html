@@ -1,0 +1,50 @@
+<mat-toolbar><span>TODO</span></mat-toolbar>
+<mat-selection-list
+  [multiple]="false"
+  [(ngModel)]="selectedOption"
+  (ngModelChange)="onChange()"
+  #currentTodo
+>
+  <h3 matSubheader><mat-icon matListIcon>pending_actions</mat-icon> Pending</h3>
+  <mat-list-option
+    checkboxPosition="before"
+    *ngFor="let task of pending"
+    [value]="task.id"
+  >
+    <h4 matLine>{{ task.name }}</h4>
+    <p matLine class="demo-2">{{ task.status }}</p>
+  </mat-list-option>
+  <mat-divider></mat-divider>
+  <h3 matSubheader><mat-icon matListIcon>task</mat-icon> Finished</h3>
+  <mat-list-option
+    checkboxPosition="before"
+    *ngFor="let task of finished"
+    [value]="task.id"
+  >
+    <h4 matLine>{{ task.name }}</h4>
+    <p matLine class="demo-2">{{ task.status }}</p>
+  </mat-list-option>
+</mat-selection-list>
+<button mat-mini-fab [disabled]="!!selectedOption" (click)="openDialog(false)">
+  <mat-icon>add</mat-icon>
+</button>
+<button mat-mini-fab [disabled]="!selectedOption" (click)="openDialog()">
+  <mat-icon>edit</mat-icon>
+</button>
+<button
+  mat-mini-fab
+  [disabled]="notPending || !selectedOption"
+  (click)="markAs('finished')"
+>
+  <mat-icon>done</mat-icon>
+</button>
+<button
+  mat-mini-fab
+  [disabled]="notFinished || !selectedOption"
+  (click)="markAs('pending')"
+>
+  <mat-icon>pending_actions</mat-icon>
+</button>
+<button mat-mini-fab [disabled]="!selectedOption" (click)="delete()">
+  <mat-icon>delete</mat-icon>
+</button>
