@@ -1,0 +1,18 @@
+<h1 mat-dialog-title>{{ data.id ? "Edit task " + data.id : "Add task" }}</h1>
+<div mat-dialog-content>
+  <mat-form-field appearance="fill">
+    <mat-label>Task name</mat-label>
+    <input matInput [(ngModel)]="data.name" />
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Task status</mat-label>
+    <mat-select [(ngModel)]="data.status">
+      <mat-option value="pending">Pending</mat-option>
+      <mat-option value="finished">Finished</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Update</button>
+</div>
