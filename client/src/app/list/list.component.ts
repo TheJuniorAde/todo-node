@@ -10,9 +10,9 @@ import { TodoService } from '../todo.service';
   styleUrls: ['./list.component.scss'],
 })
 export class ListComponent implements OnInit {
-  all: { id: number; name: string; status: 'pending' | 'finished' }[] = [];
-  pending: { id: number; name: string; status: 'pending' | 'finished' }[] = [];
-  finished: { id: number; name: string; status: 'pending' | 'finished' }[] = [];
+  all: TodoEntity[] = [];
+  pending: TodoEntity[] = [];
+  finished: TodoEntity[] = [];
 
   notPending = false;
   notFinished = false;
@@ -85,7 +85,6 @@ export class ListComponent implements OnInit {
   }
 
   openDialog(toEdit = true): void {
-    console.log('chegou aqui??');
     if (!this.selectedOption && toEdit) {
       return;
     }

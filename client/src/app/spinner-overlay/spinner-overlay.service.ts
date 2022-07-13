@@ -28,7 +28,6 @@ export class SpinnerOverlayService {
   public hide() {
     if (!!this.overlayRef) {
       this.overlayRef.detach();
-      console.log('trying to hide1', this);
     }
   }
 }

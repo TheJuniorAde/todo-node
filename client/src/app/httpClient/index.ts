@@ -19,7 +19,7 @@ function setHeaders(existingHeaders: any) {
 function buildConfig(config: RequestConfig): AxiosRequestConfig {
   const { host, ...axiosConfig } = config;
 
-  axiosConfig.baseURL = `${environment.apiUrl}`;
+  axiosConfig.baseURL = environment.apiUrl;
   axiosConfig.headers = setHeaders(axiosConfig.headers);
 
   return axiosConfig;

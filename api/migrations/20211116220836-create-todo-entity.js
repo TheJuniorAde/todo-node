@@ -1,12 +1,12 @@
-'use strict';
+"use strict";
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('TodoEntities', {
+    await queryInterface.createTable("TodoEntities", {
       id: {
         primaryKey: true,
         autoIncrement: true,
         allowNull: false,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       name: {
         type: Sequelize.STRING,
@@ -14,7 +14,7 @@ module.exports = {
         unique: true,
       },
       status: {
-        type: Sequelize.ENUM('pending', 'finished'),
+        type: Sequelize.ENUM("pending", "finished"),
         allowNull: false,
       },
       createdAt: {
@@ -23,11 +23,11 @@ module.exports = {
       },
       updatedAt: {
         allowNull: true,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('TodoEntities');
-  }
+    await queryInterface.dropTable("TodoEntities");
+  },
 };
