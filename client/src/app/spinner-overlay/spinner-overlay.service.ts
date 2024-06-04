@@ -1,33 +1,31 @@
-import { Overlay, OverlayRef } from '@angular/cdk/overlay';
-import { ComponentPortal } from '@angular/cdk/portal';
-import { Injectable } from '@angular/core';
-import { SpinnerOverlayComponent } from './spinner-overlay.component';
+import { Overlay, OverlayRef } from "@angular/cdk/overlay"
+import { ComponentPortal } from "@angular/cdk/portal"
+import { Injectable } from "@angular/core"
+import { SpinnerOverlayComponent } from "./spinner-overlay.component"
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class SpinnerOverlayService {
-  private overlayRef: OverlayRef | null = null;
+  private overlayRef: OverlayRef | null = null
   private spinnerOverlayPortal: ComponentPortal<SpinnerOverlayComponent> | null =
-    null;
+    null
 
   constructor(private overlay: Overlay) {}
 
-  public show(message = '') {
-    // Returns an OverlayRef (which is a PortalHost)
-
+  public show() {
     if (!this.overlayRef) {
-      this.overlayRef = this.overlay.create();
+      this.overlayRef = this.overlay.create()
     }
 
     // Create ComponentPortal that can be attached to a PortalHost
-    this.spinnerOverlayPortal = new ComponentPortal(SpinnerOverlayComponent);
-    this.overlayRef.attach(this.spinnerOverlayPortal); // Attach ComponentPortal to PortalHost
+    this.spinnerOverlayPortal = new ComponentPortal(SpinnerOverlayComponent)
+    this.overlayRef.attach(this.spinnerOverlayPortal) // Attach ComponentPortal to PortalHost
   }
 
   public hide() {
     if (!!this.overlayRef) {
-      this.overlayRef.detach();
+      this.overlayRef.detach()
     }
   }
 }

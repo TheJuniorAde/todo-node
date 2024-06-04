@@ -1,13 +1,23 @@
-import { Optional } from "sequelize/types";
+import { Optional } from "sequelize/types"
 
 export interface TodoAttr {
-  id: number;
-  name: string;
-  status: "pending" | "finished";
+  id: number
+  name: string
+  status: "pending" | "finished"
 }
 
 export interface TodoId {
-  id: string;
+  id: string
 }
 
-export type TodoCreationAttr = Optional<TodoAttr, "id">;
+export interface TodoResponseBody {
+  success: boolean
+  data?: TodoAttr | null
+  error?: any
+}
+
+export type TodoResponseBodyArray = TodoResponseBody & {
+  result: Array<TodoAttr>
+}
+
+export type TodoCreationAttr = Optional<TodoAttr, "id">

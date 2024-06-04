@@ -1,20 +1,23 @@
-import { RequestHandler } from "express";
-import TodoRepository from "../../models/todo";
-import { TodoId } from "../../types/todo";
+import { RequestHandler } from "express"
+import TodoRepository from "../../models/todo"
+import { TodoId, TodoResponseBody } from "../../types/todo"
 
-export const deleteTodo: RequestHandler<TodoId> = async (req, res) => {
+export const deleteTodo: RequestHandler<TodoId, TodoResponseBody> = async (
+  req,
+  res
+) => {
   try {
-    const { id } = req.params;
-    const todo = await TodoRepository.findByPk(Number(id));
+    const { id } = req.params
+    const todo = await TodoRepository.findByPk(Number(id))
 
     if (!todo) {
-      throw "Tarefa não encontrada!";
+      throw "Tarefa não encontrada!"
     }
 
-    await todo.destroy();
+    await todo.destroy()
 
-    res.json({ success: true, data: null });
+    res.json({ success: true, data: null })
   } catch (error) {
-    res.json({ success: false, error, data: null });
+    res.json({ success: false, error, data: null })
   }
-};
+}

@@ -1,4 +1,4 @@
-"use strict";
+"use strict"
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable("TodoEntities", {
@@ -25,9 +25,9 @@ module.exports = {
         allowNull: true,
         type: Sequelize.DATE,
       },
-    });
+    })
   },
-  down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable("TodoEntities");
+  down: async (queryInterface) => {
+    await queryInterface.dropTable("TodoEntities")
   },
-};
+}

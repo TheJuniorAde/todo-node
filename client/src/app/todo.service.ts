@@ -1,34 +1,33 @@
-import { Injectable } from '@angular/core';
-import { AxiosInstance } from 'axios';
-import { environment } from 'src/environments/environment';
-import { ApiResponse, TodoEntity } from './form/form.component';
-import api from './httpClient';
-import { SpinnerOverlayService } from './spinner-overlay/spinner-overlay.service';
+import { Injectable } from "@angular/core"
+import { AxiosInstance } from "axios"
+import { environment } from "src/environments/environment"
+import { ApiResponse, ApiResponseList, TodoEntity } from "./form/form.component"
+import api from "./httpClient"
+import { SpinnerOverlayService } from "./spinner-overlay/spinner-overlay.service"
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class TodoService {
-  private apiInstance: AxiosInstance = api({
-    host: environment.apiUrl,
-  });
+  private apiInstance: AxiosInstance = api({ baseURL: environment.apiUrl })
 
   constructor() {}
 
   async listAll(
     spinner: SpinnerOverlayService
-  ): Promise<ApiResponse<TodoEntity[]>> {
-    spinner.show('Loading...');
+  ): Promise<ApiResponseList<TodoEntity>> {
+    spinner.show()
 
     try {
-      const { data } = await this.apiInstance.get<ApiResponse<TodoEntity[]>>(
-        '/todo'
-      );
-      spinner.hide();
-      return data;
+      const { data } = await this.apiInstance.get<ApiResponseList<TodoEntity>>(
+        "/todo"
+      )
+
+      return data
     } catch (error) {
-      spinner.hide();
-      return { success: false, error, data: [] };
+      return { success: false, error, result: [] }
+    } finally {
+      spinner.hide()
     }
   }
 
@@ -36,17 +35,18 @@ export class TodoService {
     todoData: TodoEntity,
     spinner: SpinnerOverlayService
   ): Promise<ApiResponse<TodoEntity | null>> {
-    spinner.show('Adding...');
+    spinner.show()
 
     try {
       const { data } = await this.apiInstance.put<
         ApiResponse<TodoEntity | null>
-      >('/todo', todoData);
-      spinner.hide();
-      return data;
+      >("/todo", todoData)
+
+      return data
     } catch (error) {
-      spinner.hide();
-      return { success: false, error, data: null };
+      return { success: false, error, data: null }
+    } finally {
+      spinner.hide()
     }
   }
 
@@ -54,17 +54,18 @@ export class TodoService {
     todoData: TodoEntity,
     spinner: SpinnerOverlayService
   ): Promise<ApiResponse<TodoEntity | null>> {
-    spinner.show('Updating...');
+    spinner.show()
 
     try {
       const { data } = await this.apiInstance.patch<
         ApiResponse<TodoEntity | null>
-      >(`/todo/${todoData.id}`, todoData);
-      spinner.hide();
-      return data;
+      >(`/todo/${todoData.id}`, todoData)
+
+      return data
     } catch (error) {
-      spinner.hide();
-      return { success: false, error, data: null };
+      return { success: false, error, data: null }
+    } finally {
+      spinner.hide()
     }
   }
 
@@ -72,17 +73,18 @@ export class TodoService {
     todoData: TodoEntity,
     spinner: SpinnerOverlayService
   ): Promise<ApiResponse<null>> {
-    spinner.show('Updating...');
+    spinner.show()
 
     try {
       const { data } = await this.apiInstance.delete<ApiResponse<null>>(
         `/todo/${todoData.id}`
-      );
-      spinner.hide();
-      return data;
+      )
+
+      return data
     } catch (error) {
-      spinner.hide();
-      return { success: false, error, data: null };
+      return { success: false, error, data: null }
+    } finally {
+      spinner.hide()
     }
   }
 }

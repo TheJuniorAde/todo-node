@@ -1,13 +1,16 @@
-import { RequestHandler } from "express";
-import TodoRepository from "../../models/todo";
-import { TodoAttr } from "../../types/todo";
+import { RequestHandler } from "express"
+import TodoRepository from "../../models/todo"
+import { TodoAttr, TodoResponseBody } from "../../types/todo"
 
-export const addTodo: RequestHandler<{}, {}, TodoAttr> = async (req, res) => {
+export const addTodo: RequestHandler<{}, TodoResponseBody, TodoAttr> = async (
+  req,
+  res
+) => {
   try {
-    const { body } = req;
-    const result = await TodoRepository.create(body);
-    res.json({ success: true, data: result.get() });
+    const { body } = req
+    const result = await TodoRepository.create(body)
+    res.json({ success: true, data: result.get() })
   } catch (error) {
-    res.json({ success: false, error, data: null });
+    res.json({ success: false, error, data: null })
   }
-};
+}

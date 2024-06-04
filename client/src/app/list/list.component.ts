@@ -1,24 +1,24 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { FormComponent, TodoEntity } from '../form/form.component';
-import { SpinnerOverlayService } from '../spinner-overlay/spinner-overlay.service';
-import { TodoService } from '../todo.service';
+import { Component, Input, OnInit } from "@angular/core"
+import { MatDialog } from "@angular/material/dialog"
+import { FormComponent, TodoEntity } from "../form/form.component"
+import { SpinnerOverlayService } from "../spinner-overlay/spinner-overlay.service"
+import { TodoService } from "../todo.service"
 
 @Component({
-  selector: 'app-list',
-  templateUrl: './list.component.html',
-  styleUrls: ['./list.component.scss'],
+  selector: "app-list",
+  templateUrl: "./list.component.html",
+  styleUrls: ["./list.component.scss"],
 })
 export class ListComponent implements OnInit {
-  all: TodoEntity[] = [];
-  pending: TodoEntity[] = [];
-  finished: TodoEntity[] = [];
+  all: TodoEntity[] = []
+  pending: TodoEntity[] = []
+  finished: TodoEntity[] = []
 
-  notPending = false;
-  notFinished = false;
+  notPending = false
+  notFinished = false
 
-  @Input('ngModel')
-  selectedOption: any = null;
+  @Input("ngModel")
+  selectedOption: any = null
 
   constructor(
     public dialog: MatDialog,
@@ -27,93 +27,91 @@ export class ListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.listAll();
+    this.listAll()
   }
 
   onChange() {
     if (this.selectedOption && this.selectedOption[0]) {
-      const index = this.all.findIndex(
-        (item) => item.id === this.selectedOption[0]
-      );
+      const item = this.all.find(
+        (curItem) => curItem.id === this.selectedOption[0]
+      )
 
-      if (index !== -1) {
-        this.notPending = this.all[index].status === 'finished';
-        this.notFinished = !this.notPending;
+      if (!!item) {
+        this.notPending = item.status === "finished"
+        this.notFinished = !this.notPending
       }
     }
   }
 
-  async markAs(status: TodoEntity['status']) {
+  async markAs(status: TodoEntity["status"]) {
     if (this.selectedOption && this.selectedOption[0]) {
-      const index = this.all.findIndex(
-        (item) => item.id === this.selectedOption[0]
-      );
+      const item = this.all.find(
+        (curItem) => curItem.id === this.selectedOption[0]
+      )
 
-      if (index !== -1) {
-        await this.apiService.update(
-          { ...this.all[index], status },
-          this.spinner
-        );
-        this.listAll();
+      if (!!item) {
+        await this.apiService.update({ ...item, status }, this.spinner)
+        this.listAll()
       }
     }
   }
 
   async delete() {
     if (this.selectedOption && this.selectedOption[0]) {
-      const index = this.all.findIndex(
-        (item) => item.id === this.selectedOption[0]
-      );
+      const item = this.all.find(
+        (curItem) => curItem.id === this.selectedOption[0]
+      )
 
-      if (index !== -1) {
-        await this.apiService.delete(this.all[index], this.spinner);
-        this.listAll();
+      if (!!item) {
+        await this.apiService.delete(item, this.spinner)
+        this.listAll()
       }
     }
   }
 
   async listAll() {
-    this.selectedOption = null;
-    const result = await this.apiService.listAll(this.spinner);
-    this.all = result.data;
-    this.tasksByStatus();
+    this.selectedOption = null
+    const { result } = await this.apiService.listAll(this.spinner)
+    this.all = result
+    this.tasksByStatus()
   }
 
   tasksByStatus() {
-    this.pending = this.all.filter((item) => item.status === 'pending');
-    this.finished = this.all.filter((item) => item.status === 'finished');
+    this.pending = this.all.filter((item) => item.status === "pending")
+    this.finished = this.all.filter((item) => item.status === "finished")
   }
 
   openDialog(toEdit = true): void {
     if (!this.selectedOption && toEdit) {
-      return;
+      return
     }
 
-    const index = toEdit
-      ? this.all.findIndex((item) => item.id === this.selectedOption[0])
-      : -1;
+    const item = toEdit
+      ? this.all.find((curItem) => curItem.id === this.selectedOption[0])
+      : undefined
 
-    if (index === -1 && toEdit) {
-      return;
+    if (!item && toEdit) {
+      return
     }
 
     const data: TodoEntity = toEdit
-      ? this.all[index]
-      : { id: 0, name: '', status: 'pending' };
+      ? item!
+      : { id: 0, name: "", status: "pending" }
+
     const dialogRef = this.dialog.open(FormComponent, {
-      width: '300px',
+      width: "300px",
       data: { ...data, edit: toEdit },
-    });
+    })
 
     dialogRef.afterClosed().subscribe(async (result?: TodoEntity) => {
       if (result) {
         if (result.id && result.id !== 0) {
-          await this.apiService.update(result, this.spinner);
+          await this.apiService.update(result, this.spinner)
         } else {
-          await this.apiService.add(result, this.spinner);
+          await this.apiService.add(result, this.spinner)
         }
-        await this.listAll();
+        await this.listAll()
       }
-    });
+    })
   }
 }
